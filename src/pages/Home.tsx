@@ -94,28 +94,28 @@ export default function Home() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {/* 頁頭 */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">
             <span className="bg-gradient-to-r from-blue-400 to-gold-400 bg-clip-text text-transparent">
               大樂透 AI 助手
             </span>
           </h1>
-          <p className="text-gray-400">智能分析，精準預測</p>
+          <p className="text-sm md:text-base text-gray-400">智能分析，精準預測</p>
         </div>
-        <div className="flex items-center gap-2 text-gray-400">
-          <Calendar size={20} />
+        <div className="flex items-center gap-2 text-gray-400 text-sm">
+          <Calendar size={18} />
           <span>{new Date().toLocaleDateString('zh-TW')}</span>
         </div>
       </div>
 
       {/* AI 綜合評分 */}
       <div className="card">
-        <div className="flex items-center gap-3 mb-4">
-          <Sparkles className="text-gold-400" size={24} />
-          <h2 className="text-xl font-semibold text-white">AI 綜合評分</h2>
+        <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
+          <Sparkles className="text-gold-400 w-5 h-5 md:w-6 md:h-6" />
+          <h2 className="text-lg md:text-xl font-semibold text-white">AI 綜合評分</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {numberFrequencies.slice(0, 4).map((nf) => (
@@ -162,14 +162,14 @@ export default function Home() {
           </ul>
         </div>
         
-        <div className="grid grid-cols-7 gap-3 px-4">
+        <div className="grid grid-cols-7 gap-2 md:gap-3 px-2 md:px-4">
           {numberFrequencies.map((nf) => (
             <div
               key={nf.number}
-              className={`w-16 h-16 rounded-lg flex flex-col items-center justify-center font-bold transition-all hover:scale-105 hover:shadow-lg border-2 cursor-pointer ${getHeatmapColor(nf)}`}
+              className={`w-10 h-10 md:w-16 md:h-16 rounded-lg flex flex-col items-center justify-center font-bold transition-all hover:scale-105 hover:shadow-lg border-2 cursor-pointer ${getHeatmapColor(nf)}`}
             >
-              <span className="text-xl">{nf.number}</span>
-              <span className="text-xs opacity-75">{nf.count}次</span>
+              <span className="text-sm md:text-xl">{nf.number}</span>
+              <span className="text-[10px] md:text-xs opacity-75">{nf.count}次</span>
             </div>
           ))}
         </div>
