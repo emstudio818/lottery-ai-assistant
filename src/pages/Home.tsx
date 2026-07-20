@@ -33,19 +33,29 @@ export default function Home() {
     ],
   };
 
-  // 最近100期趨勢圖表
+  // 最近10期大小號比例趨勢圖表
   const recentTrendData = {
     labels: lotteryResults.slice(0, 10).reverse().map(r => r.period.slice(-3)),
     datasets: [
       {
-        label: '平均號碼',
+        label: '小號 (1-24)',
         data: lotteryResults.slice(0, 10).reverse().map(r => 
-          r.numbers.reduce((sum, num) => sum + num, 0) / 6
+          r.numbers.filter(num => num <= 24).length
+        ),
+        borderColor: 'rgba(59, 130, 246, 1)',
+        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+        tension: 0.4,
+        fill: false,
+      },
+      {
+        label: '大號 (25-49)',
+        data: lotteryResults.slice(0, 10).reverse().map(r => 
+          r.numbers.filter(num => num >= 25).length
         ),
         borderColor: 'rgba(234, 179, 8, 1)',
         backgroundColor: 'rgba(234, 179, 8, 0.2)',
         tension: 0.4,
-        fill: true,
+        fill: false,
       },
     ],
   };
@@ -74,6 +84,41 @@ export default function Home() {
         },
         ticks: {
           color: '#9ca3af',
+        },
+      },
+    },
+  };
+
+  const recentTrendOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top' as const,
+        labels: {
+          color: '#e5e7eb',
+        },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 6,
+        ticks: {
+          stepSize: 1,
+          color: '#9ca3af',
+        },
+        grid: {
+          color: 'rgba(75, 85, 99, 0.3)',
+        },
+      },
+      x: {
+        ticks: {
+          color: '#9ca3af',
+        },
+        grid: {
+          color: 'rgba(75, 85, 99, 0.3)',
         },
       },
     },
@@ -229,23 +274,14 @@ export default function Home() {
 
       {/* 第二排分析區域 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* 最近 100 期趨勢 */}
+        {/* 最近 10 期大小號趨勢 */}
         <div className="card">
           <div className="flex items-center gap-3 mb-4">
             <Clock className="text-yellow-400" size={24} />
-            <h2 className="text-xl font-semibold text-white">最近 10 期趨勢</h2>
+            <h2 className="text-xl font-semibold text-white">最近 10 期大小號趨勢</h2>
           </div>
           <div className="h-64">
-            <Line data={recentTrendData} options={{
-              ...chartOptions,
-              scales: {
-                ...chartOptions.scales,
-                y: {
-                  ...chartOptions.scales!.y,
-                  beginAtZero: false,
-                }
-              }
-            }} />
+            <Line data={recentTrendData} options={recentTrendOptions} />
           </div>
         </div>
 
