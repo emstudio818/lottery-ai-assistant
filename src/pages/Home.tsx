@@ -17,13 +17,14 @@ ChartJS.register(
 export default function Home() {
   const { numberFrequencies, aiRecommendations, cooccurrences, lotteryResults } = useLotteryData();
   
-  // 號碼頻率圖表數據
+  // 號碼頻率圖表數據 - 按出現次數降序排列
+  const sortedByCount = [...numberFrequencies].sort((a, b) => b.count - a.count);
   const frequencyChartData = {
-    labels: numberFrequencies.slice(0, 15).map(nf => nf.number.toString()),
+    labels: sortedByCount.slice(0, 15).map(nf => nf.number.toString()),
     datasets: [
       {
         label: '出現次數',
-        data: numberFrequencies.slice(0, 15).map(nf => nf.count),
+        data: sortedByCount.slice(0, 15).map(nf => nf.count),
         backgroundColor: 'rgba(59, 130, 246, 0.8)',
         borderColor: 'rgba(59, 130, 246, 1)',
         borderWidth: 2,
@@ -117,12 +118,12 @@ export default function Home() {
           <Sparkles className="text-gold-400 w-5 h-5 md:w-6 md:h-6" />
           <h2 className="text-lg md:text-xl font-semibold text-white">AI 綜合評分</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           {numberFrequencies.slice(0, 4).map((nf) => (
-            <div key={nf.number} className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+            <div key={nf.number} className="bg-gray-800 rounded-lg p-3 md:p-4 border border-gray-700">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-white font-semibold">號碼 {nf.number}</span>
-                <span className={`text-2xl font-bold ${getScoreColor(nf.aiScore)}`}>{nf.aiScore}</span>
+                <span className="text-white font-semibold text-sm md:text-base">號碼 {nf.number}</span>
+                <span className={`text-xl md:text-2xl font-bold ${getScoreColor(nf.aiScore)}`}>{nf.aiScore}</span>
               </div>
               <div className="w-full bg-gray-700 rounded-full h-2">
                 <div 
@@ -135,7 +136,7 @@ export default function Home() {
                   }} 
                 />
               </div>
-              <div className="flex justify-between mt-2 text-xs text-gray-400">
+              <div className="flex justify-between mt-2 text-[10px] md:text-xs text-gray-400">
                 <span>機率: {(nf.probability * 100).toFixed(1)}%</span>
                 <span>遺漏: {nf.missingRounds}期</span>
               </div>
@@ -147,7 +148,7 @@ export default function Home() {
       {/* 49 球熱力圖 */}
       <div className="card">
         <div className="flex items-center gap-3 mb-4">
-          <TrendingUp className="text-gold-400" size={24} />
+          <TrendingUp className="text-gold-400 w-5 h-5 md:w-6 md:h-6" />
           <h2 className="text-xl font-semibold text-white">49 球熱力圖</h2>
         </div>
         
